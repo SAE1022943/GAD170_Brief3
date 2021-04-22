@@ -3,18 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
+/// <summary>
+/// 
+/// This class is the Controller for my tank.
+/// It stores the compontents of the tank 
+/// 
+/// 
+/// 
+/// 
+/// </summary>
+
+
+
 public class OctahedronController : MonoBehaviour
 {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // Compontents of the tank that'll need to be referenced
+    
+    private Rigidbody myRigidBody;
+    private Collider myCollider;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // The Tank needs health to hit
+    
+    public int timesHitBySphere = 0;
+    
+
+
+
+
+
 }
