@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollowScript : MonoBehaviour
+public class PlayManager : MonoBehaviour
 {
-
-    public GameObject targetObject; // this will be the Players tank
-     
-   
     // Start is called before the first frame update
     void Start()
     {

@@ -7,10 +7,8 @@ using UnityEngine;
 /// <summary>
 /// 
 /// This class is the Controller for my tank.
-/// It stores the compontents of the tank 
-/// 
-/// 
-/// 
+///  
+/// Movement:
 /// 
 /// </summary>
 
@@ -18,19 +16,50 @@ using UnityEngine;
 
 public class OctahedronController : MonoBehaviour
 {
+    // PUBLIC FIELDS
+      
+    // how fast the tank moves
+    public float maxMovementSpeed, maxRotationSpeed; 
+   
 
-    // Compontents of the tank that'll need to be referenced
-    
+    // PRIVATE FIELDS
     private Rigidbody myRigidBody;
     private Collider myCollider;
-
-    // The Tank needs health to hit
-    
-    public int timesHitBySphere = 0;
-    
-
+    private Camera myCamera;
+             
+    public Vector3 targetPoint; 
+     
 
 
+    private void Awake()
+    {
+        myRigidBody = GetComponent<Rigidbody>(); 
+        myCollider = GetComponent<Collider>();
+        myCamera = Camera.main.GetComponent<Camera>();      
+    }
 
+
+    private void Movement()
+    {
+        // Find where the player is pointing with the mouse
+        Ray ray = myCamera.ScreenPointToRay(Input.mousePosition);      
+        RaycastHit hit;
+       
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+           targetPoint = hit.point; // assign the point to mousePosition
+        }
+
+        
+
+
+                
+
+    }
+
+    private void Update()
+    {
+        Movement();
+    }
 
 }
