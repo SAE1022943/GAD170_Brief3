@@ -4,6 +4,29 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
+
+
+
+
+    private void OnEnable()
+    {
+        
+
+
+
+    }
+
+
+    private void OnDisable()
+    {
+        
+    }
+
+
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {

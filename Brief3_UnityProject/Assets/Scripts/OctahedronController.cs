@@ -24,9 +24,13 @@ public class OctahedronController : MonoBehaviour
     public int timesHitBySphere = 0;
 
     // how fast the tank moves
-    [SerializeField] 
+    [SerializeField]
     private float movementSpeed, rotationSpeed; // how fast the tank moves and rotates towards the currentTargetPoint
-    
+
+    [SerializeField]
+    private float stopRange; // What is the minimum distance between target point and current position need to start moving.
+
+
     // PRIVATE FIELDS
     private Rigidbody myRigidBody;
     private Collider myCollider;
@@ -58,17 +62,27 @@ public class OctahedronController : MonoBehaviour
 
         // 2 find the difference betwene the tank and the target point
         var diff_PointToTank = currentTargetPoint - transform.position;
-        myRigidBody.AddForce(diff_PointToTank + (movementSpeed * diff_PointToTank.normalized));
         
+        if (diff_PointToTank.magnitude > stopRange)
+        {
+            myRigidBody.AddForce(diff_PointToTank + (movementSpeed * diff_PointToTank.normalized));
+        } 
+        else
+        {
+            myRigidBody.velocity = Vector3.zero;
+        }
 
-
-
-
-
-
-       
-                          
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        timesHitBySphere++;
+       
+    }
+
+
+
 
 
     private void FixedUpdate()

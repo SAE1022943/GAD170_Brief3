@@ -17,21 +17,38 @@ using UnityEngine.Events;
 
 public class GameDirector : MonoBehaviour
 {
-
-
-
-    public GUI gameUI; // this the game UI stuff
-
-
-
-
     
-    private int Score;   
-    
-    public delegate void Transition();
-    public static event Transition startGame;
+    private bool isPlayingTheGame = false;
+
+    private int gameScore = 0;
 
 
+
+    // Delegate for my event
+    private delegate void GameEvent();
+    private GameEvent gameEvent;
+
+
+    private void PlayGame()
+    {
+
+
+        if ( !isPlayingTheGame && Input.GetKeyDown("Space") )
+        {
+            // start the game
+            gameEvent?.Invoke();
+            // set game to play
+            isPlayingTheGame = true;
+
+        }
+
+
+
+
+    }
+
+      
+   
 
     private void Awake()
     {
@@ -42,10 +59,12 @@ public class GameDirector : MonoBehaviour
 
     }
 
-
-
     private void Start()
     {
+
+
+
+
 
        
     }

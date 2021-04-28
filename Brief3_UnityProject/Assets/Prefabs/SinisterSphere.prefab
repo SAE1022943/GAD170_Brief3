@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7501917110178059850}
   - component: {fileID: 5018548771918852067}
   - component: {fileID: 6614915012225240237}
-  - component: {fileID: 8775123192897496721}
   m_Layer: 0
   m_Name: Graphic
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987660300792851137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.448, y: 0.097, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4532990747557784986}
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8775123192897496721
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987660300792851137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4532990747557784985
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +91,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4532990747557784986}
   - component: {fileID: 7437342135526534912}
+  - component: {fileID: 6154281227685858055}
+  - component: {fileID: 7140582977322724889}
   m_Layer: 0
   m_Name: SinisterSphere
   m_TagString: Enemy
@@ -139,3 +127,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9da0870f1edb3a418f99a06bcf1621a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sphereMaximumHealth: 0
+  movementSpeed: 0
+--- !u!54 &6154281227685858055
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532990747557784985}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &7140582977322724889
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532990747557784985}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
