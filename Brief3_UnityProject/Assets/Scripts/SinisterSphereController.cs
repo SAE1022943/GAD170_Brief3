@@ -23,16 +23,22 @@ public class SinisterSphereController : MonoBehaviour
     private int sphereMaximumHealth;
 
     [SerializeField]
-    private float movementSpeed;
+    private float movementSpeed, reboundForce, maxReboundDistance;
 
-    private int timesHitByBullets = 0;  
-    private float TotaldistanceTraveled = 0f;
+
+    private float timeAlive;
+
+    private int timesHitByBullets = 0;
+    
     private bool isCracked = false;
-
 
     private Rigidbody myRigidbody;
     public GameObject myTarget;
     private Collider myCollider;
+
+    public bool hasHitTank = false;
+    
+    private Vector3 positionDifference;  
 
     // Initialise all values
     void Awake()
@@ -42,19 +48,52 @@ public class SinisterSphereController : MonoBehaviour
         myCollider = GetComponent<Collider>();
     }
 
-
     void Movement()
     {
-        var diff = myTarget.transform.position - transform.position; // enemy location minus tank location    
-        myRigidbody.AddForce(diff + (movementSpeed * diff.normalized)); // move the enemy towards the player
+       myRigidbody.AddForce(positionDifference * movementSpeed); 
     }
-    
-    
-    
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+       
+        if (collision.gameObject.tag == "Player")
+        {
+            hasHitTank = true;
+            Debug.Log(hasHitTank);
+        }
+
+    }
+
+    void Rebound()
+    {
+        var rebound = positionDifference * reboundForce;
+        myRigidbody.AddForce(-rebound);
+
+        if (positionDifference.magnitude >= maxReboundDistance)
+        {
+            Debug.Log("I've reached rebound distance");
+            hasHitTank = false;
+        }
+
+    }
+
+    private void Update()
+    {
+        positionDifference = myTarget.transform.position - transform.position; // enemy location minus tank location    
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        Movement();
+        
+        if (hasHitTank)
+        {
+            Rebound();
+        } 
+        else
+        {
+            Movement();
+        }
+
     }
 }

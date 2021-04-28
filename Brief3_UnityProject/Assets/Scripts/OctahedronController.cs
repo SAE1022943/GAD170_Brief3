@@ -74,14 +74,15 @@ public class OctahedronController : MonoBehaviour
 
     }
 
+
+    /*
     private void OnCollisionEnter(Collision collision)
     {
 
         timesHitBySphere++;
        
     }
-
-
+    */
 
 
 

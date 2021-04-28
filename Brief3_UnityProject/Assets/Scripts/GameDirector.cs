@@ -22,11 +22,9 @@ public class GameDirector : MonoBehaviour
 
     private int gameScore = 0;
 
-
-
     // Delegate for my event
     private delegate void GameEvent();
-    private GameEvent gameEvent;
+    private static event GameEvent gameEvent;
 
 
     private void PlayGame()

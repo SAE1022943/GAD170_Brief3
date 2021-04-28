@@ -198,7 +198,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383204}
   m_CullTransparentMesh: 1
---- !u!1001 &306792460
+--- !u!1001 &107245885
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -215,15 +215,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4532990747557784986, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.24372813
+      value: -2.4662747
       objectReference: {fileID: 0}
     - target: {fileID: 4532990747557784986, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.90299976
+      value: 1.07
       objectReference: {fileID: 0}
     - target: {fileID: 4532990747557784986, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.38
+      value: -13.706315
       objectReference: {fileID: 0}
     - target: {fileID: 4532990747557784986, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -252,6 +252,34 @@ PrefabInstance:
     - target: {fileID: 4532990747557784986, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154281227685858055, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: m_Drag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154281227685858055, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154281227685858055, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: m_Constraints
+      value: 84
+      objectReference: {fileID: 0}
+    - target: {fileID: 7437342135526534912, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: timeToWait
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7437342135526534912, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: reboundForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7437342135526534912, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: movementSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7437342135526534912, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
+      propertyPath: sphereMaximumHealth
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52fd149c6cf2d91459581f789d1d4cfd, type: 3}
@@ -1072,6 +1100,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2555546988496263223, guid: 0f63877f96190d042b5952ed2923c631, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457305386755842769, guid: 0f63877f96190d042b5952ed2923c631, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4457305386755842769, guid: 0f63877f96190d042b5952ed2923c631, type: 3}
