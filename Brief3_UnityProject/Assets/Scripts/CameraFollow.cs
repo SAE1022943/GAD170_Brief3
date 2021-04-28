@@ -13,37 +13,58 @@ using UnityEngine;
 /// 
 /// </summary>
 
-
-
-
 public class CameraFollow : MonoBehaviour
 {
-
-
-    // how should the camera follow the target
-    public Vector3 positionalOffset = new Vector3(0, 20, -10);
-
-    // what the camera is looking at
-    private GameObject cameraTargetObject;
     
-       
+    // reference to the cameraobject script is attached to
+    private Camera myCam;
+
+    // What Object does the camera look at
+    private GameObject cameraTargetObject;
+
+    // Setup the camera's initial target
     private void Awake()
     {
-        
-       cameraTargetObject = GameObject.FindGameObjectWithTag("Player");
-        
-    }
+        myCam = GetComponent<Camera>();
+        cameraTargetObject = GameObject.FindGameObjectWithTag("Player");
+    } 
+   
 
-    // Start is called before the first frame update
-    void Start()
+    // Where should the camera be in relation to the target
+    [SerializeField]
+    private Vector3 positionalOffset = new Vector3(0, 20, -10);
+    // private Vector3 rotationalOffset = new Vector3();
+
+      
+    private Vector3 currentPoint;
+    
+    private void CurrentMouseWorldPosition() 
+    {                
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            currentPoint = hit.point;
+        }
+    }
+    
+    
+
+
+
+
+   // Start is called before the first frame update
+    void FollowTarget()
     {
-                
+        transform.position = cameraTargetObject.transform.position + positionalOffset;
+        transform.LookAt(cameraTargetObject.transform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = cameraTargetObject.transform.position + positionalOffset;
-        transform.LookAt(cameraTargetObject.transform);
+        CurrentMouseWorldPosition();        
+        if(cameraTargetObject != null) {FollowTarget();}
     }
 }
