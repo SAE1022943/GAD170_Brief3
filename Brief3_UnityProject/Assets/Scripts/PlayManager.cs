@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayManager : MonoBehaviour
 {
 
-    public int test;
-
-
 
     private void OnEnable()
     {
@@ -18,7 +15,6 @@ public class PlayManager : MonoBehaviour
     {
         GameDirector.StartGame -= PlayGame;
     }
-
 
     private void PlayGame()
     {

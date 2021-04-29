@@ -37,33 +37,22 @@ public class OctahedronController : MonoBehaviour
     private int maxTankHealth; // Takes ten hits to kill tank
 
     [SerializeField]
-    private float movementForce, stopRange;
+    private float movementForce, stopRange; // move with this force and stop when tank cursor distance is within stoprange.
 
     [SerializeField]
-    private float shootingDelayInSeconds; 
+    private float shootingDelayInSeconds;
+
+    public GameObject missileRef;
+
 
     // -- PRIVATE FIELDS
-    
-    // --- Required Components references
-    private Rigidbody myRigidBody;
-    private Camera myCam;
-        
-    // --- Calculated Data Variables
-    private int currentTankHealth  = 0;
+    private int currentTankHealth = 0;
     private Vector3 currentTargetPoint;
 
+    // -- COMPONENT REFERENCES
+    private Rigidbody myRigidBody;
+    private Camera myCam;
     
-    // -- Initialization
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
 
     private void Awake() // initialize references
     {
@@ -138,9 +127,6 @@ public class OctahedronController : MonoBehaviour
 
     IEnumerable Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
-
-
-
 
         Debug.Log("Bang!");
         yield return new WaitForSeconds(shootingDelayInSeconds);

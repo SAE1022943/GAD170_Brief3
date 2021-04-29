@@ -8,7 +8,7 @@ using UnityEngine;
 /// 
 /// Logic for missile.
 /// Get a target from the PlayManager
-/// Move towards that target using smooth transform movement not physics.
+/// Move the missile towards the target.
 /// On collision with target, tell that object to take damage
 /// Deactivate the missile 
 ///  
@@ -28,14 +28,8 @@ public class Missile : MonoBehaviour
     // Object References
 
     private GameObject target;
-
-
-    // Calculated Variables
-
-
-
     
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,16 +44,7 @@ public class Missile : MonoBehaviour
 
     void MoveToTarget()
     {
-
-
-
-
-
-
+        Debug.Log("Moving");
     }
-
-
-
-
     
 }

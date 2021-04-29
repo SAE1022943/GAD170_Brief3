@@ -17,54 +17,66 @@ using UnityEngine;
 
 public class SinisterSphereController : MonoBehaviour
 {
-       
+    
+    // -- FEILDS SET IN INSPECTOR
     
     [SerializeField]
-    private int sphereMaximumHealth;
+    private int sphereMaximumHealth; // need to be hit by 10 missiles to be cracked
 
     [SerializeField]
-    private float movementSpeed, reboundForce, maxReboundDistance;
+    private float movementForce, reboundForce, maxReboundDistance; // variables controlling sphere movement
 
+    // -- PRIVATE FEILDS
 
     private float timeAlive;
-
     private int timesHitByBullets = 0;
-    
     private bool isCracked = false;
+    private bool hasHitTank = false;
+    private Vector3 positionDifference;
+
+    // -- COMPONENT REFERENCES
 
     private Rigidbody myRigidbody;
     public GameObject myTarget;
     private Collider myCollider;
-
-    public bool hasHitTank = false;
     
-    private Vector3 positionDifference;  
+    // --  UNITY METHODS
 
-    // Initialise all values
-    void Awake()
+    void Awake() // Initialise Component References
     {
         myRigidbody = GetComponent<Rigidbody>();
         myTarget = GameObject.FindGameObjectWithTag("Player");
         myCollider = GetComponent<Collider>();
     }
 
-    void Movement()
+    private void OnCollisionEnter(Collision collision) // detect if player is hit to trigger rebound.
     {
-       myRigidbody.AddForce(positionDifference * movementSpeed); 
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-       
         if (collision.collider.CompareTag("Player"))
         {
             hasHitTank = true;
             Debug.Log(hasHitTank);
         }
-
     }
 
-    void Rebound()
+    void FixedUpdate() // Update is called once per frame
+    {
+        positionDifference = myTarget.transform.position - transform.position;
+        if (hasHitTank)
+        {
+            Rebound();
+        }
+        else
+        {
+            Movement();
+        }
+    }
+
+    void Movement() // move towards the player if not rebounding in FixedUpdate
+    {
+       myRigidbody.AddForce(positionDifference * movementForce); 
+    }
+
+    void Rebound() // if sphere touches the player rebound off till rebound distance reached.
     {
         var rebound = positionDifference * reboundForce;
         myRigidbody.AddForce(-rebound);
@@ -77,23 +89,4 @@ public class SinisterSphereController : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        positionDifference = myTarget.transform.position - transform.position; // enemy location minus tank location    
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-        if (hasHitTank)
-        {
-            Rebound();
-        } 
-        else
-        {
-            Movement();
-        }
-
-    }
 }

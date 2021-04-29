@@ -17,7 +17,6 @@ public class GameDirector : MonoBehaviour
 
     // INSPECTOR SET FEILDS
 
-    private GameObject myMainMenuGUI;
 
     // PRIVATE FEILDS
 
@@ -32,18 +31,10 @@ public class GameDirector : MonoBehaviour
     public static event GameStateTransition StartGame;
 
 
-    public void Awake()
-    {
-      
-
-    }
-
-
-
-
     private void PlayGame()
     {
-        myGUI.SetActive(false);
+        isPlayingTheGame = true;
+        Debug.Log("clicked play game button");
     }
 
 }
