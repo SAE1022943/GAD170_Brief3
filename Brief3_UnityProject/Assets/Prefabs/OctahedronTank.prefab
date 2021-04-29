@@ -60,9 +60,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc688c8e1c77154691c07c1fcbe1b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTankHealth: 0
-  movementForce: 0
-  stopRange: 0
+  maxTankHealth: 10
+  maxMissileCapacity: 50
+  movementForce: 5
+  stopRange: 0.5
+  shootingDelayInSeconds: 3
+  missileRef: {fileID: 0}
 --- !u!54 &771251377331953144
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -34,30 +34,50 @@ public class OctahedronController : MonoBehaviour
     // -- FEILDS SET IN THE INSPECTOR
 
     [SerializeField]
-    private int maxTankHealth; // Takes ten hits to kill tank
-
+    private int maxTankHealth, maxMissileCapacity; // Takes ten hits to kill tank
     [SerializeField]
     private float movementForce, stopRange; // move with this force and stop when tank cursor distance is within stoprange.
-
     [SerializeField]
     private float shootingDelayInSeconds;
 
-    public GameObject missileRef;
+    // -- DELEGATES AND EVENTS
 
-
-    // -- PRIVATE FIELDS
-    private int currentTankHealth = 0;
-    private Vector3 currentTargetPoint;
+    public delegate void GameBehaviour(); 
+    public static GameBehaviour TankDeath;
+    
 
     // -- COMPONENT REFERENCES
+    
     private Rigidbody myRigidBody;
     private Camera myCam;
-    
+    public GameObject missileRef;
+
+    // -- PRIVATE FEILDS
+
+    private Vector3 currentTargetPoint;
+    private int currentTankHealth = 0;
+    private int missileReserves;
+
+
+
+
+
+    // --  UNITY METHODS
 
     private void Awake() // initialize references
     {
         myRigidBody = GetComponent<Rigidbody>();
         myCam = Camera.main;
+    }
+
+    public void OnEnable() // add event listeners
+    {
+        MunitionPickUp.PickedUp += AddMissiles;      
+    }
+
+    public void OnDisable() // remove event listeners
+    {
+        MunitionPickUp.PickedUp -= AddMissiles;
     }
 
     private void Start() // initialize variables
@@ -66,8 +86,6 @@ public class OctahedronController : MonoBehaviour
 
         StartCoroutine("Shoot");
     }
-
-    // --  UNITY METHODS
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -122,21 +140,28 @@ public class OctahedronController : MonoBehaviour
 
     }
     
-
-
+    /// <summary>
+    /// Listen for the PickeUp event in PowerUpPickUp then add passed ammo 
+    /// if added amount exceeds the max, then set to max missiles.
+    /// </summary>
+    /// <param name="_ammo"></param>
+    private void AddMissiles(int _ammo) 
+    {
+        missileReserves += _ammo;
+        if (missileReserves > maxMissileCapacity) { missileReserves = maxMissileCapacity; }
+        Debug.Log("Missile remaining is " + missileReserves);
+    }
 
     IEnumerable Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
-
         Debug.Log("Bang!");
         yield return new WaitForSeconds(shootingDelayInSeconds);
-
     }
 
     private void Died()
     {
+        
         Debug.Log("Tank go bye bye!");
+        Destroy(this);
     }
-
-
 }
