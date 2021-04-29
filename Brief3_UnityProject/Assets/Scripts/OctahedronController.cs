@@ -5,13 +5,23 @@ using UnityEngine;
 
 
 /// <summary>
-/// This class is the Controller for my tank.
-///  
-/// Movement:
-///     Tank will move towards the point the mouse is pointing at.
+/// This class is the Controller for my tank. 
+/// I'm trying to adhere to the single responsibility rule, but realize composition in unity is using components.
+/// So really should put my movement logic in a movement script then in this controller, require that script then pass the fields into that class.
+/// Thus use the same movememnt script for both tank and spheres and maybe my bullets.
+/// 
+/// 
+/// What the script does
+/// 
+/// Movement():
+///     Tank will move towards the point the mouse is pointing at on the floor.
+///     Force will stop being applied to to the object when it's within a minimum distance to that point
 ///     
-/// 
-/// 
+/// OnCollision();     
+///     if the tank is hit by an Sphere it'll add that to it's times hit count, which will trigger death.
+///     
+/// Killed(); 
+///     Notify the PlayManager that the player is dead and stop the game.
 /// 
 /// 
 /// </summary>
@@ -21,51 +31,100 @@ using UnityEngine;
 public class OctahedronController : MonoBehaviour
 {
 
-    public int timesHitBySphere = 0;
-
-    // how fast the tank moves
-    [SerializeField]
-    private float movementSpeed, rotationSpeed; // how fast the tank moves and rotates towards the currentTargetPoint
+    // -- FEILDS SET IN THE INSPECTOR
 
     [SerializeField]
-    private float stopRange; // What is the minimum distance between target point and current position need to start moving.
+    private int maxTankHealth; // Takes ten hits to kill tank
 
+    [SerializeField]
+    private float movementForce, stopRange;
 
-    // PRIVATE FIELDS
-    private Rigidbody myRigidBody;
-    private Collider myCollider;
-    private Camera myCam;
+    [SerializeField]
+    private float shootingDelayInSeconds; 
 
-    // Where is the player pointing with the mouse
-    private Vector3 currentTargetPoint;
+    // -- PRIVATE FIELDS
     
+    // --- Required Components references
+    private Rigidbody myRigidBody;
+    private Camera myCam;
+        
+    // --- Calculated Data Variables
+    private int currentTankHealth  = 0;
+    private Vector3 currentTargetPoint;
 
+    
+    // -- Initialization
 
-    private void Awake()
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
+    private void Awake() // initialize references
     {
         myRigidBody = GetComponent<Rigidbody>();
-        myCollider = GetComponent<Collider>();
         myCam = Camera.main;
     }
+
+    private void Start() // initialize variables
+    {
+        currentTankHealth = maxTankHealth; // the tank starts at full health
+
+        StartCoroutine("Shoot");
+    }
+
+    // --  UNITY METHODS
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            currentTankHealth--;
+            //Debug.Log("ouch, health at " + currentTankHealth);
+
+            if(currentTankHealth <= 0)
+            {
+                Died();
+            } 
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
+    }
+
+    // -- CREATED METHODS
 
     private void Movement()
     {
               
-        // 1 Get the Mouse location in world space 
+        // 1 Get the Mouse location in world space by raycasting
+        
         Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        LayerMask mask = LayerMask.GetMask("Floor");
 
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
         {
             currentTargetPoint = hit.point;
         }
 
         // 2 find the difference betwene the tank and the target point
-        var diff_PointToTank = currentTargetPoint - transform.position;
         
+        var diff_PointToTank = currentTargetPoint - transform.position;
+
+        // 3 then add force if outside the specificed stop range
+
         if (diff_PointToTank.magnitude > stopRange)
         {
-            myRigidBody.AddForce(diff_PointToTank + (movementSpeed * diff_PointToTank.normalized));
+            myRigidBody.AddForce(diff_PointToTank + (movementForce * diff_PointToTank.normalized));
         } 
         else
         {
@@ -73,23 +132,25 @@ public class OctahedronController : MonoBehaviour
         }
 
     }
+    
 
 
-    /*
-    private void OnCollisionEnter(Collision collision)
+
+    IEnumerable Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
 
-        timesHitBySphere++;
-       
+
+
+
+        Debug.Log("Bang!");
+        yield return new WaitForSeconds(shootingDelayInSeconds);
+
     }
-    */
 
-
-
-    private void FixedUpdate()
+    private void Died()
     {
-        Movement();
-
+        Debug.Log("Tank go bye bye!");
     }
+
 
 }

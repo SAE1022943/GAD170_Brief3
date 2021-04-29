@@ -5,30 +5,28 @@ using UnityEngine;
 public class PlayManager : MonoBehaviour
 {
 
-
-
+    public int test;
 
 
 
     private void OnEnable()
     {
-        
-
-
-
-
+        GameDirector.StartGame += PlayGame;
     }
-
 
     private void OnDisable()
     {
-        
+        GameDirector.StartGame -= PlayGame;
     }
 
 
+    private void PlayGame()
+    {
 
-
-
+        Debug.Log("Game is Starting!!!");
+              
+        throw new System.NotImplementedException();
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -56,7 +56,7 @@ public class SinisterSphereController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
        
-        if (collision.gameObject.tag == "Player")
+        if (collision.collider.CompareTag("Player"))
         {
             hasHitTank = true;
             Debug.Log(hasHitTank);
