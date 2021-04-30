@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 /// <summary>
 /// This class is the Controller for my tank. 
 /// I'm trying to adhere to the single responsibility rule, but realize composition in unity is using components.
 /// So really should put my movement logic in a movement script then in this controller, require that script then pass the fields into that class.
 /// Thus use the same movememnt script for both tank and spheres and maybe my bullets.
 /// 
-/// 
-/// What the script does
+/// What the script does:
 /// 
 /// Movement():
 ///     Tank will move towards the point the mouse is pointing at on the floor.
@@ -20,13 +17,15 @@ using UnityEngine;
 /// OnCollision();     
 ///     if the tank is hit by an Sphere it'll add that to it's times hit count, which will trigger death.
 ///     
-/// Killed(); 
+/// Died(); 
 ///     Notify the PlayManager that the player is dead and stop the game.
 /// 
+/// Shoot();
+///     Every 3 seconds shoot at active enemies.
+///     decriment the ammoReseve
+///     don't shoot if no missiles are vailable
 /// 
 /// </summary>
-
-
 
 public class OctahedronController : MonoBehaviour
 {
@@ -42,10 +41,9 @@ public class OctahedronController : MonoBehaviour
 
     // -- DELEGATES AND EVENTS
 
-    public delegate void GameBehaviour(); 
-    public static GameBehaviour TankDeath;
+    public delegate void TankState(); // state notifications.
+    public static event TankState TankDeath;
     
-
     // -- COMPONENT REFERENCES
     
     private Rigidbody myRigidBody;
@@ -54,37 +52,40 @@ public class OctahedronController : MonoBehaviour
 
     // -- PRIVATE FEILDS
 
-    private Vector3 currentTargetPoint;
-    private int currentTankHealth = 0;
-    private int missileReserves;
-
-
-
-
+    private IEnumerator shootSalvo; // reference to do a null check.
+    private Vector3 currentTargetPoint; // mouse cursor position
+    private int currentTankHealth;
+    private int currentMissiles;
+    private List<GameObject> targetsToShoot;
 
     // --  UNITY METHODS
+
+    private void OnEnable() // add event listeners
+    {
+        MunitionPickUp.PickedUp += AddMissiles;
+    }
+
+    private void OnDisable() // remove event listeners
+    {
+        MunitionPickUp.PickedUp -= AddMissiles;
+    }
 
     private void Awake() // initialize references
     {
         myRigidBody = GetComponent<Rigidbody>();
         myCam = Camera.main;
-    }
-
-    public void OnEnable() // add event listeners
-    {
-        MunitionPickUp.PickedUp += AddMissiles;      
-    }
-
-    public void OnDisable() // remove event listeners
-    {
-        MunitionPickUp.PickedUp -= AddMissiles;
+        shootSalvo = Shoot();
     }
 
     private void Start() // initialize variables
     {
         currentTankHealth = maxTankHealth; // the tank starts at full health
+        currentMissiles = maxMissileCapacity; // and with max missiles
 
-        StartCoroutine("Shoot");
+        if (shootSalvo != null) // null check before setting coroutine reference
+        {
+            StartCoroutine("Shoot");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -101,7 +102,7 @@ public class OctahedronController : MonoBehaviour
             } 
         }
 
-    }
+    } // spheres damage tank
 
     private void FixedUpdate()
     {
@@ -147,12 +148,12 @@ public class OctahedronController : MonoBehaviour
     /// <param name="_ammo"></param>
     private void AddMissiles(int _ammo) 
     {
-        missileReserves += _ammo;
-        if (missileReserves > maxMissileCapacity) { missileReserves = maxMissileCapacity; }
-        Debug.Log("Missile remaining is " + missileReserves);
+        currentMissiles += _ammo;
+        if (currentMissiles > maxMissileCapacity) { currentMissiles = maxMissileCapacity; }
+        Debug.Log("Missile remaining is " + currentMissiles);
     }
 
-    IEnumerable Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
+    IEnumerator Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
         Debug.Log("Bang!");
         yield return new WaitForSeconds(shootingDelayInSeconds);
@@ -160,8 +161,8 @@ public class OctahedronController : MonoBehaviour
 
     private void Died()
     {
-        
         Debug.Log("Tank go bye bye!");
-        Destroy(this);
+        TankDeath?.Invoke();
+        Destroy(gameObject);
     }
 }

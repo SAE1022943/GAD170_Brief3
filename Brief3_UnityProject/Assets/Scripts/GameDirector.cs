@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// 
 /// This is the enterance into the program. Handles playing the game and displaying GameOver
 /// Sends messages to the PlayManager
-///  
+/// 
 /// 
 /// 
 /// </summary>
@@ -24,10 +24,26 @@ public class GameDirector : MonoBehaviour
 
     // -- PRIVATE FEILDS
 
-    private int gameScore = 0;
-   
-    // -- EVENTS AND DELEGATES
+    private int finalGameScore = 0;
+  
+    // -- UNITY METHODS
+    
+    private void Awake()
+    {
+        mainMenu.SetActive(true);
+    }
 
+    private void OnEnable()
+    {
+        OctahedronController.TankDeath += GameOver;
+    }
+
+    private void OnDisable()
+    {
+        OctahedronController.TankDeath += GameOver;
+    }
+
+    // -- CUSTOM METHODS
 
     private void PlayGame()
     {
@@ -35,19 +51,12 @@ public class GameDirector : MonoBehaviour
         StartGame?.Invoke();
     }
 
-    private void Awake()
+    private void GameOver()
     {
-        mainMenu.SetActive(true);
+        Debug.Log("GameOver, mwahahaha");
+        gameOverScreen.SetActive(true);
     }
 
-    private void Start()
-    {
-            
-    }
 
-    private void Update()
-    {
-        
-    }
 
 }

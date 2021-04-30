@@ -21,26 +21,29 @@ public class MunitionPickUp : MonoBehaviour
     [SerializeField]
     private int missileAmount; // how many missiles does the player tank recieve on pick up
     [SerializeField]
-    private float timeAlive; // how long the powerup stays interactable
+    private float lifeSpanInSeconds; // how long the powerup stays interactable
 
     // -- DELEGATES AND EVENTS
 
     public delegate void GameAction(int _ammo);
     public static GameAction PickedUp;
 
-    // -- 
+    // -- PRIVATE FEILDS
 
-    private void Awake()
-    {
-        
-    }
+
+    private IEnumerator coroutine;
+    private float deathTimer;
+    
+    // -- UNITY METHODS
+
+    private void Awake() => deathTimer = lifeSpanInSeconds; // set the iterator lifespan
 
     private void Start()
     {
-        
+        StartCoroutine("DespawnTimer");    
     }
 
-     void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
        
         if (other.CompareTag("Player"))
@@ -51,24 +54,15 @@ public class MunitionPickUp : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-    
-    }
-
-
+    // -- CUSTOM METHODS
+       
     IEnumerator DespawnTimer()
     {
-         
-        timeAlive++;
-        return null;
-
+        while (deathTimer != 0)
+        {
+            deathTimer--;
+            yield return null;
+        }
+        Destroy(gameObject);
     }
-
-
-
-
-
-
-
 }

@@ -12,7 +12,6 @@ using UnityEngine;
 /// 
 /// If you hit the tank, rebound off it before chasing again.
 /// 
-/// 
 /// </summary>
 
 public class SinisterSphereController : MonoBehaviour
@@ -26,6 +25,12 @@ public class SinisterSphereController : MonoBehaviour
     [SerializeField]
     private float movementForce, reboundForce, maxReboundDistance; // variables controlling sphere movement
 
+    // -- EVENTS AND DELEGATES
+
+    private delegate void SphereState();
+    private static event SphereState SphereDied;
+    
+
     // -- PRIVATE FEILDS
 
     private float timeAlive;
@@ -33,7 +38,7 @@ public class SinisterSphereController : MonoBehaviour
     private bool isCracked = false;
     private bool hasHitTank = false;
     private Vector3 positionDifference;
-
+    
     // -- COMPONENT REFERENCES
 
     private Rigidbody myRigidbody;
@@ -87,6 +92,12 @@ public class SinisterSphereController : MonoBehaviour
             hasHitTank = false;
         }
 
+    }
+
+    void Died()
+    {
+        gameObject.SetActive(false);
+        SphereDied?.Invoke();
     }
 
 }
