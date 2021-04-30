@@ -14,29 +14,52 @@ using UnityEngine.Events;
 
 public class GameDirector : MonoBehaviour
 {
+    // -- INSPECTOR SET FEILDS
 
-    // INSPECTOR SET FEILDS
+    [SerializeField]
+    private GameObject myGUIpanel;
 
-    public GameObject mainMenu;
-    public GameObject gameOverScreen;
-
-    // PRIVATE FEILDS
-
-    private bool isPlayingTheGame = false;
-    private int gameScore = 0;
-
-    // Component references
-    
-       
-    // -- Events and Delegates
     public delegate void GameStateTransition();
     public static event GameStateTransition StartGame;
 
 
+
+
+    public GameObject mainMenu;
+    public GameObject gameOverScreen;
+
+
+    // -- PRIVATE FEILDS
+
+    private int gameScore = 0;
+   
+    // -- EVENTS AND DELEGATES
+
+    
+
+
     private void PlayGame()
     {
-        isPlayingTheGame = true;
         Debug.Log("clicked play game button");
+        StartGame?.Invoke();
     }
+
+    private void Awake()
+    {
+        myGUIpanel.SetActive(true);
+    }
+
+    private void Start()
+    {
+            
+    }
+
+
+
+    private void Update()
+    {
+        
+    }
+
 
 }
