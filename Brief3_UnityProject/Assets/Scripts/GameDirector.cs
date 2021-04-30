@@ -16,26 +16,17 @@ public class GameDirector : MonoBehaviour
 {
     // -- INSPECTOR SET FEILDS
 
-    [SerializeField]
-    private GameObject myGUIpanel;
-
-    public delegate void GameStateTransition();
-    public static event GameStateTransition StartGame;
-
-
-
-
     public GameObject mainMenu;
     public GameObject gameOverScreen;
 
+    public delegate void GameStateTransition();
+    public static event GameStateTransition StartGame;
 
     // -- PRIVATE FEILDS
 
     private int gameScore = 0;
    
     // -- EVENTS AND DELEGATES
-
-    
 
 
     private void PlayGame()
@@ -46,7 +37,7 @@ public class GameDirector : MonoBehaviour
 
     private void Awake()
     {
-        myGUIpanel.SetActive(true);
+        mainMenu.SetActive(true);
     }
 
     private void Start()
@@ -54,12 +45,9 @@ public class GameDirector : MonoBehaviour
             
     }
 
-
-
     private void Update()
     {
         
     }
-
 
 }
