@@ -5,6 +5,20 @@ using UnityEngine;
 public class PlayManager : MonoBehaviour
 {
 
+    // -- FIELDS SET IN INSPECTOR
+
+
+
+    public GameObject gameHUD; // reference to gameHUD gui game object.
+
+
+    // -- 
+
+
+
+
+
+
 
     private void OnEnable()
     {

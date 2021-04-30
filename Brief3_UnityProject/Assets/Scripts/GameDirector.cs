@@ -17,6 +17,8 @@ public class GameDirector : MonoBehaviour
 
     // INSPECTOR SET FEILDS
 
+    public GameObject mainMenu;
+    public GameObject gameOverScreen;
 
     // PRIVATE FEILDS
 
