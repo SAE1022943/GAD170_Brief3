@@ -65,7 +65,7 @@ MonoBehaviour:
   movementForce: 5
   stopRange: 0.5
   shootingDelayInSeconds: 3
-  missileRef: {fileID: 0}
+  missileRef: {fileID: 8725664443817650735, guid: ce4290de390a4e743943c85cd86b7acd, type: 3}
 --- !u!54 &771251377331953144
 Rigidbody:
   m_ObjectHideFlags: 0

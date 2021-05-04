@@ -23,13 +23,13 @@ using UnityEngine;
 /// Shoot();
 ///     Every 3 seconds shoot at active enemies.
 ///     decriment the ammoReseve
-///     don't shoot if no missiles are vailable
+///     don't shoot if no missiles are available
 /// 
 /// </summary>
 
 public class OctahedronController : MonoBehaviour
 {
-
+    
     // -- FEILDS SET IN THE INSPECTOR
 
     [SerializeField]
@@ -52,11 +52,12 @@ public class OctahedronController : MonoBehaviour
 
     // -- PRIVATE FEILDS
 
-    private IEnumerator shootSalvo; // reference to do a null check.
+    private IEnumerator shootSalvo; // reference is needed to do a is null check.
     private Vector3 currentTargetPoint; // mouse cursor position
-    private int currentTankHealth;
+    private int currentTankHealth; 
     private int currentMissiles;
-    private List<GameObject> targetsToShoot;
+    
+    private List<GameObject> targetsToShoot; // this list is aquired set from the 
 
     // --  UNITY METHODS
 
@@ -93,13 +94,14 @@ public class OctahedronController : MonoBehaviour
 
         if (collision.collider.CompareTag("Enemy"))
         {
-            currentTankHealth--;
-            //Debug.Log("ouch, health at " + currentTankHealth);
-
-            if(currentTankHealth <= 0)
+            if (currentTankHealth == 0)
             {
                 Died();
             } 
+            else
+            {
+               currentTankHealth--;
+            }
         }
 
     } // spheres damage tank
@@ -153,12 +155,25 @@ public class OctahedronController : MonoBehaviour
         Debug.Log("Missile remaining is " + currentMissiles);
     }
 
+
+
+    /// <summary>
+    /// This coroutine controls when the Octohedron shoots it's missile battery
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
+        
+        
+
+
         Debug.Log("Bang!");
         yield return new WaitForSeconds(shootingDelayInSeconds);
     }
 
+    /// <summary>
+    /// Triggered when the 
+    /// </summary>
     private void Died()
     {
         Debug.Log("Tank go bye bye!");

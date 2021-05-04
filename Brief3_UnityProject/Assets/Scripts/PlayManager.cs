@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
+    // FIELD DECLARATIONS
 
-    // -- FIELDS SET IN INSPECTOR
-
+    // --- SET IN INSPECTOR
 
     [SerializeField]
-    private GameObject enemyPrefabRef;
+    private GameObject enemyPrefabRef; // refernece to the Sinister Sphere
 
     [SerializeField]
     private GameObject gameHUD; // reference to gameHUD gui game object.
@@ -23,29 +23,46 @@ public class PlayManager : MonoBehaviour
     [SerializeField]
     private float spawnDelay; // so you don't get swamped by spheres
 
-
+    [SerializeField]
     private GameObject playerPrefabRef;
-    private Transform playerSpawn;
     
-    // -- PRIVATE FEILDS
+    private Transform playerSpawn; // the location where the player is spawned, centre of the floor
+    
+    // --- PRIVATE FEILDS
 
     private Stack<GameObject> enemySpawnPool; // instantiated enemies read to be activated (using stack cause it makes more sense than a list) Push! POP!
 
     public List<GameObject> activeEnemies; // "Exterminate...Exterminate..." Tank uses this to shoot the spheres hence public
-        
-    // -- UNTITY METHODS
 
+    // --- Delegates and Events
+
+    private delegate void Targets(List<GameObject> _targets);
+    private static event Targets sendTargetsToTank;
+
+    // METHODS
+
+    // --- UNTITY METHODS
+
+    /// <summary>
+    /// instantiate private fields at runtime
+    /// </summary>
     void Awake()
     {
         enemySpawnPool = new Stack<GameObject>();
     }
 
+    /// <summary>
+    /// Attaching event listeners to functions
+    /// </summary>
     private void OnEnable()
     {
-        GameDirector.StartGame += PlayGame;
-        OctahedronController.TankDeath += GameOver;
+        GameDirector.StartGame += PlayGame; // when the user presses play initiate play.
+        OctahedronController.TankDeath += GameOver; // when the player tank dies stop the game
     }
 
+    /// <summary>
+    /// Unsubscribing event listeners when the object is disabled.
+    /// </summary>
     private void OnDisable()
     {
         GameDirector.StartGame -= PlayGame;
@@ -54,27 +71,59 @@ public class PlayManager : MonoBehaviour
 
     // -- CUSTOM METHODS
 
+    /// <summary>
+    /// Initiate the game by spawning the player and the enemyspheres
+    /// </summary>
+    private void PlayGame()
+    {
+        
+        Debug.Log("GameStarted");
+
+        // switch to game UI
+        gameHUD.SetActive(true);
+
+        // spawn the player
+        Instantiate(playerPrefabRef, playerSpawn);
+
+        // Generate the enemies
+        GenerateSpheres();
+
+    }
+
+    /// <summary>
+    /// Creates spheres based upon the inspector set enemies to spawn integer value
+    /// </summary>
     private void GenerateSpheres() // populate the spawn pool becasue instantiation is costly at runtime.
     {
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            var enemy = Instantiate(playerPrefabRef);
+            var enemy = Instantiate(enemyPrefabRef);
             enemy.SetActive(false);
             enemySpawnPool.Push(enemy);
         }
     }
 
+    /// <summary>
+    /// Put the given sphere enemy at a random spawn point and then activate the object and add it to the active enemies roster list. 
+    /// </summary>
+    /// <param name="sphere"></param>
     private void SpawnSphere(GameObject sphere) // put enemy at a random spawn location then give it a liscence to kill.
     {
         var randomIndex = Random.Range(0, 3);
-        sphere.transform.position = sphere.transform.position;
+        sphere.transform.position = enemySpawnPositions[randomIndex].transform.position;
         sphere.SetActive(true);
-        activeEnemies.Add(sphere); // splinter sphere agent activated... 
+        activeEnemies.Add(sphere); // splinter sphere agent activated...
+
     }
 
+    /// <summary>
+    /// Will allow spheres to spawn after the passed in spawn delay.
+    /// </summary>
+    /// <param name="_spawnDelay"></param>
+    /// <returns></returns>
     IEnumerator SpawnSphereWindow(float _spawnDelay)
     {
-                
+
         while (enabled)
         {
 
@@ -86,20 +135,9 @@ public class PlayManager : MonoBehaviour
         }
     }
 
-    private void PlayGame()
-    {
-        Debug.Log("GameStarted");
-
-        // switch to game UI
-        gameHUD.SetActive(true);
-
-        // spwan the player
-        Instantiate(playerPrefabRef, playerSpawn);
-
-        GenerateSpheres();
-
-    }
-    
+    /// <summary>
+    /// When the player dies, clear the spawn pools to stop the game.
+    /// </summary>
     private void GameOver()
     {
         activeEnemies.Clear();
