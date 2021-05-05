@@ -758,13 +758,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabRef: {fileID: 0}
+  gameHUD: {fileID: 383204}
   enemySpawnPositions:
   - {fileID: 1433357191}
   - {fileID: 21003249}
   - {fileID: 1465769586}
   - {fileID: 219779342}
   enemiesToSpawn: 10
-  gameHUD: {fileID: 383204}
+  spawnDelay: 0
+  playerPrefabRef: {fileID: 0}
+  activeEnemies: []
 --- !u!1 &1068239077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,22 +1418,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.92387956
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.38268343
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7338062663066835112, guid: 375cbe530a109f84d9df51af856652ae, type: 3}
