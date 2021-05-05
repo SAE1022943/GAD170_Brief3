@@ -8,6 +8,10 @@ using UnityEngine;
 /// It will use the screenpointtoray function to find where the user is pointing
 /// 
 /// 
+/// NOTE:
+/// 
+/// I think maybe that the null exception operator won't work correctly with serialized fields, so I'll avoid that.
+/// 
 /// </summary>
 
 public class TankMotor : MonoBehaviour
@@ -21,6 +25,10 @@ public class TankMotor : MonoBehaviour
     private Rigidbody myRigidBody;
     private Camera myCam;  
     
+
+
+
+
    
     private Vector3 currentTargetPoint;
 
@@ -30,19 +38,27 @@ public class TankMotor : MonoBehaviour
     /// </summary>
     private void Awake()
     {       
+        
+        
         myRigidBody = gameObject?.GetComponent<Rigidbody>();
         myCam = Camera.main;
 
+
+
+
+
+
     }
 
-    /// <summary>
-    /// Move the tank with the appropriate force
-    /// </summary>
-    private void Move()
+    private void Start()
     {
 
-        // 1 Get the Mouse location in world space by raycasting
+    }
 
+    
+
+    private void GetUserMousePosition()
+    {
         Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
         LayerMask mask = LayerMask.GetMask("Floor");
 
@@ -50,40 +66,28 @@ public class TankMotor : MonoBehaviour
         {
             currentTargetPoint = hit.point;
         }
+    }
 
-        // 2 find the difference betwene the tank and the target point
-
+    /// <summary>
+    /// Move the tank with the appropriate force
+    /// </summary>
+    private void Move()
+    {
         var diff_PointToTank = currentTargetPoint - transform.position;
+        myRigidBody.AddForce(diff_PointToTank + (myController.movementForce * diff_PointToTank.normalized));
+    }
 
-        // 3 then add force if outside the specificed stop range
-
-
-        // 
+    private void Stop()
+    {
         if (diff_PointToTank.magnitude > stopRange)
         {
-            myRigidBody.AddForce(diff_PointToTank + (myController.movementForce * diff_PointToTank.normalized));
+            ;
         }
         else
         {
             myRigidBody.velocity = Vector3.zero;
         }
-
     }
-
-    private void Stop()
-    {
-
-
-
-
-
-
-    }
-
-
-
-
-
 
     /// <summary>
     /// 

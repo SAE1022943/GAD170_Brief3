@@ -14,24 +14,26 @@ using UnityEngine;
 public class MissileBattery : MonoBehaviour
 {
 
-
     // -- COMPONENT REFERENCES
 
-
-    private float shootingDelayInSeconds;
-
+    private float shootingDelayInSeconds;  
     private IEnumerator shootSalvo; // reference is needed to do a is null check.
-
     private List<GameObject> targetsToShoot; // this list is aquired set from the 
 
+    // --  
 
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Awake() // initialize references
     {
         shootSalvo = Shoot();
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     // Start is called before the first frame update
     void Start()
     {
@@ -41,9 +43,7 @@ public class MissileBattery : MonoBehaviour
             StartCoroutine("Shoot");
         }
 
-
     }
-
 
     /// <summary>
     /// This coroutine controls when the Octohedron shoots it's missile battery
@@ -52,20 +52,20 @@ public class MissileBattery : MonoBehaviour
     IEnumerator Shoot() // gun always shoots ever 5 seconds. Select a missile battery to shoot.
     {
 
-
-
-
         Debug.Log("Bang!");
         yield return new WaitForSeconds(shootingDelayInSeconds);
+
+
+
+
     }
-
-
-
-
 
     // Update is called once per frame
     void Update()
     {
         
+
+
+
     }
 }
