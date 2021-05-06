@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// This script handles the tank's movement.
 /// It requires a rigidbody and a camera in the scene
@@ -17,19 +18,23 @@ using UnityEngine;
 public class TankMotor : MonoBehaviour
 {
 
-
     // --- fields set by the controller.
 
-    // Reference to the camera's oriting 
+    // Reference to the camera's oriting
     private OctahedronController myController;      
     private Rigidbody myRigidBody;
     private Camera myCam;  
     
 
+    private float motorForce;
+    public float SetMotorForce()
+    {
+        return gameObject.GetComponent<OctahedronController>().getMovementForce;
+    }
 
 
 
-   
+
     private Vector3 currentTargetPoint;
 
 
@@ -37,26 +42,12 @@ public class TankMotor : MonoBehaviour
     /// Initialize references and components
     /// </summary>
     private void Awake()
-    {       
-        
-        
+    {
+        myController = gameObject.GetComponent<OctahedronController>();
         myRigidBody = gameObject?.GetComponent<Rigidbody>();
         myCam = Camera.main;
-
-
-
-
-
-
     }
-
-    private void Start()
-    {
-
-    }
-
     
-
     private void GetUserMousePosition()
     {
         Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
@@ -74,26 +65,20 @@ public class TankMotor : MonoBehaviour
     private void Move()
     {
         var diff_PointToTank = currentTargetPoint - transform.position;
-        myRigidBody.AddForce(diff_PointToTank + (myController.movementForce * diff_PointToTank.normalized));
+        myRigidBody.AddForce(diff_PointToTank + (myController.getMovementForce * diff_PointToTank.normalized));
     }
 
     private void Stop()
     {
-        if (diff_PointToTank.magnitude > stopRange)
-        {
-            ;
-        }
-        else
-        {
-            myRigidBody.velocity = Vector3.zero;
-        }
+        myRigidBody.velocity = Vector3.zero;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void Update()
-    {
-        
-    }
+
+
+
+
+    //private void Stop()
+    //{
+    //    if (diff_PointToTank.magnitude > myController.stopRange)
+    //}
 }

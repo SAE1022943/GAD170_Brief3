@@ -16,16 +16,9 @@ public class OctahedronController : MonoBehaviour
     private int maxTankHealth, maxMissileCapacity; // Takes ten hits to kill tank
 
     private float movementForce;
-    public float getMovementForce()
-    {
-        get { return movementForce; }
-    }
-
+    
     private float stopRange;
-    public float getStopRange()
-    {
-        return stopRange;
-    }
+    
 
     // -- REFERENCES
 
