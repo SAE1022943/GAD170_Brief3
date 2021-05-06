@@ -92,14 +92,6 @@ public class TankMotor : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    void Start()
-    {
-        
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     void Update()
     {
         

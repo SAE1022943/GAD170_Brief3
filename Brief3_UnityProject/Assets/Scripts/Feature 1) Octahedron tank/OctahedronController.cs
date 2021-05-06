@@ -3,50 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This class is the Controller for my tank. 
-/// I'm trying to adhere to the single responsibility rule, but realize composition in unity is using components.
-/// So really should put my movement logic in a movement script then in this controller, require that script then pass the fields into that class.
-/// Thus use the same movememnt script for both tank and spheres and maybe my bullets.
-/// 
-/// What the script does:
-/// 
-///     
-/// OnCollision();     
-///     if the tank is hit by an Sphere it'll add that to it's times hit count, which will trigger death.
-///     
-/// Died(); 
-///     Notify the PlayManager that the player is dead and stop the game.
-/// 
+/// This class is the Controller for my tank.
+/// It makes sure that all the require components are added and set to correct values defined in it's inspector
+/// I handles health and ammo data as well, and collisions.
 /// </summary>
 
 public class OctahedronController : MonoBehaviour
 {
    
-    // -- 
-    
-    private MissileBattery myBattery;
-    private TankMotor myMotor;
-    
     // -- FEILDS SET IN THE INSPECTOR
 
-    
     private int maxTankHealth, maxMissileCapacity; // Takes ten hits to kill tank
-    
-    
-    private float movementForce, stopRange; // move with this force and stop when tank cursor distance is within stoprange.
 
-
-
-    public float getMovementForce() 
+    private float movementForce;
+    public float getMovementForce()
     {
-    
+        get { return movementForce; }
     }
 
+    private float stopRange;
+    public float getStopRange()
+    {
+        return stopRange;
+    }
+
+    // -- REFERENCES
+
+    private MissileBattery myBattery;
+    private TankMotor myMotor;
 
 
-
-   
     // -- DELEGATES AND EVENTS
+
 
     public delegate void TankState(); // state notifications.
     public static event TankState TankDeath;
@@ -130,8 +118,6 @@ public class OctahedronController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
-    /// 
     /// 
     /// 
     /// </summary>
